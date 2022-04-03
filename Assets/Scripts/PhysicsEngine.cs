@@ -8,7 +8,7 @@ public class PhysicsEngine : MonoBehaviour {
     [SerializeField] private Slider _radiusSlider;
     [SerializeField] private float _initialOmega;
 
-    private float _r2d2;
+    private float _r2d2; // radians to degrees ratio
     private float _nextAngle;
     private float _radius;
     private float _height;
@@ -19,25 +19,15 @@ public class PhysicsEngine : MonoBehaviour {
     void Start() {
         _r2d2 = 180 / Mathf.PI;
         _nextAngle = 0;
-        _radiusSlider.value = _physicsObj.transform.localScale.x / 2;
         _height = _physicsObj.transform.localScale.y;
+
         _radius = _radiusSlider.value;
+        _physicsObj.transform.localScale = new Vector3(_radius * 2, _height, _radius * 2);
+        _mass = _massSlider.value;
+        
         _angularMomentum = GetAngMo(_initialOmega);
         _angularVelocity = _initialOmega;
-        _mass = _massSlider.value;
     }
-
-    //private void Update() {
-    //    if (Input.GetKeyDown(KeyCode.W)) {
-    //        SetRadius(0.1f);
-    //        CalculateAngularVelocity();
-    //        print(_angularVelocity);
-    //    } else if (Input.GetKeyDown(KeyCode.S)) {
-    //        SetRadius(-0.1f);
-    //        CalculateAngularVelocity();
-    //        print(_angularVelocity);
-    //    }
-    //}
 
     void FixedUpdate() {
         _nextAngle += _angularVelocity * _r2d2 * Time.fixedDeltaTime;
