@@ -27,6 +27,8 @@ public class PhysicsEngine : MonoBehaviour {
         
         _angularMomentum = GetAngMo(_initialOmega);
         _angularVelocity = _initialOmega;
+        _uiMgr.UpdateAngMomentum(_angularMomentum.ToString());
+        _uiMgr.UpdateAngVelocity(_angularVelocity.ToString());
     }
 
     void FixedUpdate() {
@@ -61,5 +63,7 @@ public class PhysicsEngine : MonoBehaviour {
     /// </summary>
     private void CalculateAngularVelocity() {
         _angularVelocity = _angularMomentum / (_mass *_radius);
+        _uiMgr.UpdateAngMomentum(_angularMomentum.ToString());
+        _uiMgr.UpdateAngVelocity(_angularVelocity.ToString());
     }
 }
