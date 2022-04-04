@@ -267,7 +267,7 @@ MonoBehaviour:
   _physicsObj: {fileID: 210557072}
   _massSlider: {fileID: 1259628885}
   _radiusSlider: {fileID: 958956117}
-  _initialOmega: 2
+  _initialAngVelocity: 5
 --- !u!82 &210557074
 AudioSource:
   m_ObjectHideFlags: 0
