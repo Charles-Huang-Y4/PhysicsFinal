@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void UpdateAngVelocity(string val) {
-        _angVelo.text = "Angular Velocity: " + val;
+        _angVelo.text = "Angular Velocity:\n" + val;
     }
 
     public void OnQuitButtonPress() {
