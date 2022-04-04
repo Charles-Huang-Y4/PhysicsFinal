@@ -12,9 +12,11 @@ public class PhysicsEngine : MonoBehaviour {
 
     private float _r2d2; // radians to degrees ratio
     private float _nextAngle;
+    private float _initialMass;
+    private float _initialRadius;
+    private float _mass;
     private float _radius;
     private float _height;
-    private float _mass;
     private float _angularMomentum;
     private float _angularVelocity;
     private AudioSource _audio;
@@ -26,8 +28,10 @@ public class PhysicsEngine : MonoBehaviour {
         _nextAngle = 0;
         _height = _physicsObj.transform.localScale.y;
 
-        _radius = _radiusSlider.value;
+        _initialMass = _massSlider.value;
+        _initialRadius = _radiusSlider.value;
         _mass = _massSlider.value;
+        _radius = _radiusSlider.value;
         _physicsObj.transform.localScale = new Vector3(_radius * 2, _height, _radius * 2);
 
         _angularMomentum = GetAngMo(_initialAngVelocity);
@@ -97,6 +101,22 @@ public class PhysicsEngine : MonoBehaviour {
 
         _pitchIncrement = (_maxPitch - 1) / (minAngularVelocity - _initialAngVelocity);
         _pitchDecrement = (1 - _minPitch) / (_initialAngVelocity - maxAngularVelocity);
+    }
+
+    public void Reset() {
+        _massSlider.value = _initialMass;
+        _radiusSlider.value = _initialRadius;
+
+        SetMass();
+        SetRadius();
+    }
+
+    public void Randomize() {
+        _massSlider.value = Random.Range(_massSlider.minValue, _massSlider.maxValue);
+        _radiusSlider.value = Random.Range(_radiusSlider.minValue, _radiusSlider.maxValue);
+
+        SetMass();
+        SetRadius();
     }
 
     private void OnValidate() {
