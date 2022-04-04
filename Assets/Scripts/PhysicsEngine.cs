@@ -15,6 +15,9 @@ public class PhysicsEngine : MonoBehaviour {
     private float _mass;
     private float _angularMomentum;
     private float _angularVelocity;
+    private AudioSource _audio;
+    private float _pitchIncrement;
+    private float _pitchDecrement;
 
     void Start() {
         _r2d2 = 180 / Mathf.PI;
@@ -29,6 +32,10 @@ public class PhysicsEngine : MonoBehaviour {
         _angularVelocity = _initialOmega;
         _uiMgr.UpdateAngMomentum(_angularMomentum.ToString());
         _uiMgr.UpdateAngVelocity(_angularVelocity.ToString());
+
+        _audio = GetComponent<AudioSource>();
+        _pitchIncrement = 0.5f / 120;
+        _pitchDecrement = 0.5f / 3.75f;
     }
 
     void FixedUpdate() {
@@ -42,12 +49,14 @@ public class PhysicsEngine : MonoBehaviour {
         _physicsObj.transform.localScale = newScale;
         _uiMgr.UpdateRadius(_radius.ToString());
         CalculateAngularVelocity();
+        //setPitch();
     }
 
     public void SetMass() {
         _mass = _massSlider.value;
         _uiMgr.UpdateMass(_mass.ToString());
         CalculateAngularVelocity();
+        //setPitch();
     }
 
     /// <summary>
@@ -65,5 +74,17 @@ public class PhysicsEngine : MonoBehaviour {
         _angularVelocity = _angularMomentum / (_mass *_radius);
         _uiMgr.UpdateAngMomentum(_angularMomentum.ToString());
         _uiMgr.UpdateAngVelocity(_angularVelocity.ToString());
+    }
+
+    private void setPitch() {
+        if (_angularVelocity < 5) {
+            _audio.pitch -= (5 - _angularVelocity) * _pitchDecrement;
+        } else if (_angularVelocity > 5) {
+            _audio.pitch += (5 - _angularVelocity) * _pitchIncrement;
+            print(_angularVelocity);
+        // to account for float imprecision? 
+        } else {
+            _audio.pitch = 1;
+        }
     }
 }
