@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
+    [SerializeField] private Text _angMo;   // Represents Angular Momentum
+    [SerializeField] private Text _angVelo; // Represents Angular Velocity
     [SerializeField] private Text _radiusValue;
     [SerializeField] private Text _massValue;
 
@@ -16,5 +18,17 @@ public class UIManager : MonoBehaviour {
 
     public void UpdateMass(string val) {
         _massValue.text = val;
+    }
+
+    public void UpdateAngMomentum(string val) {
+        _angMo.text = "Angular Momentum: " + val;
+    }
+
+    public void UpdateAngVelocity(string val) {
+        _angVelo.text = "Angular Velocity: " + val;
+    }
+
+    public void OnQuitButtonPress() {
+        Application.Quit();
     }
 }
