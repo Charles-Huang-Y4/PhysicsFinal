@@ -272,6 +272,8 @@ MonoBehaviour:
   _massSlider: {fileID: 1259628885}
   _radiusSlider: {fileID: 958956117}
   _initialAngVelocity: 5
+  _minPitch: 0.5
+  _maxPitch: 1.5
 --- !u!82 &210557074
 AudioSource:
   m_ObjectHideFlags: 0

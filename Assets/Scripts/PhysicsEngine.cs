@@ -7,6 +7,8 @@ public class PhysicsEngine : MonoBehaviour {
     [SerializeField] private Slider _massSlider;
     [SerializeField] private Slider _radiusSlider;
     [SerializeField] private float _initialAngVelocity;
+    [SerializeField] private float _minPitch;
+    [SerializeField] private float _maxPitch;
 
     private float _r2d2; // radians to degrees ratio
     private float _nextAngle;
@@ -25,17 +27,16 @@ public class PhysicsEngine : MonoBehaviour {
         _height = _physicsObj.transform.localScale.y;
 
         _radius = _radiusSlider.value;
-        _physicsObj.transform.localScale = new Vector3(_radius * 2, _height, _radius * 2);
         _mass = _massSlider.value;
-        
+        _physicsObj.transform.localScale = new Vector3(_radius * 2, _height, _radius * 2);
+
         _angularMomentum = GetAngMo(_initialAngVelocity);
         _angularVelocity = _initialAngVelocity;
         _uiMgr.UpdateAngMomentum(_angularMomentum.ToString());
         _uiMgr.UpdateAngVelocity(_angularVelocity.ToString());
 
         _audio = GetComponent<AudioSource>();
-        _pitchIncrement = 0.5f / 120;
-        _pitchDecrement = 0.5f / 3.75f;
+        CalibratePitch();
     }
 
     void FixedUpdate() {
@@ -81,10 +82,30 @@ public class PhysicsEngine : MonoBehaviour {
             _audio.pitch = 1 - (5 - _angularVelocity) * _pitchDecrement;
         } else if (_angularVelocity > 5) {
             _audio.pitch = 1 + (_angularVelocity - 5) * _pitchIncrement;
-            print(_angularVelocity);
         // to account for float imprecision? 
         } else {
             _audio.pitch = 1;
+        }
+    }
+
+    /// <summary>
+    /// Calibrates pitch increment and decrement based on slider and min/max pitch values.
+    /// </summary>
+    private void CalibratePitch() {
+        float maxAngularVelocity = _angularMomentum / (_massSlider.maxValue * _radiusSlider.maxValue);
+        float minAngularVelocity = _angularMomentum / (_massSlider.minValue * _radiusSlider.minValue);
+
+        _pitchIncrement = (_maxPitch - 1) / (minAngularVelocity - _initialAngVelocity);
+        _pitchDecrement = (1 - _minPitch) / (_initialAngVelocity - maxAngularVelocity);
+    }
+
+    private void OnValidate() {
+        if(_minPitch < 0.1) {
+            _minPitch = 0.1f;
+        }
+
+        if (_maxPitch > 3) {
+            _maxPitch = 3;
         }
     }
 }
