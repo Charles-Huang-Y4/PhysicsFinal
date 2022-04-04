@@ -49,14 +49,14 @@ public class PhysicsEngine : MonoBehaviour {
         _physicsObj.transform.localScale = newScale;
         _uiMgr.UpdateRadius(_radius.ToString());
         CalculateAngularVelocity();
-        //setPitch();
+        setPitch();
     }
 
     public void SetMass() {
         _mass = _massSlider.value;
         _uiMgr.UpdateMass(_mass.ToString());
         CalculateAngularVelocity();
-        //setPitch();
+        setPitch();
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public class PhysicsEngine : MonoBehaviour {
 
     private void setPitch() {
         if (_angularVelocity < 5) {
-            _audio.pitch -= (5 - _angularVelocity) * _pitchDecrement;
+            _audio.pitch = 1 - (5 - _angularVelocity) * _pitchDecrement;
         } else if (_angularVelocity > 5) {
-            _audio.pitch += (5 - _angularVelocity) * _pitchIncrement;
+            _audio.pitch = 1 + (_angularVelocity - 5) * _pitchIncrement;
             print(_angularVelocity);
         // to account for float imprecision? 
         } else {
