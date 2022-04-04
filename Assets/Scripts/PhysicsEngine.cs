@@ -6,7 +6,7 @@ public class PhysicsEngine : MonoBehaviour {
     [SerializeField] private GameObject _physicsObj;
     [SerializeField] private Slider _massSlider;
     [SerializeField] private Slider _radiusSlider;
-    [SerializeField] private float _initialOmega;
+    [SerializeField] private float _initialAngVelocity;
 
     private float _r2d2; // radians to degrees ratio
     private float _nextAngle;
@@ -28,8 +28,8 @@ public class PhysicsEngine : MonoBehaviour {
         _physicsObj.transform.localScale = new Vector3(_radius * 2, _height, _radius * 2);
         _mass = _massSlider.value;
         
-        _angularMomentum = GetAngMo(_initialOmega);
-        _angularVelocity = _initialOmega;
+        _angularMomentum = GetAngMo(_initialAngVelocity);
+        _angularVelocity = _initialAngVelocity;
         _uiMgr.UpdateAngMomentum(_angularMomentum.ToString());
         _uiMgr.UpdateAngVelocity(_angularVelocity.ToString());
 
